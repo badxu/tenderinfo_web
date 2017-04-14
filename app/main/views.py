@@ -1,6 +1,6 @@
 from flask import render_template, request, session, redirect, url_for, current_app,flash
 from .. import db
-from ..models import User, Role, Tendinfo, Permission
+from ..models import User, Role, Tendinfo, Permission, Tendinforefshtime
 from ..email import send_email
 from . import main
 from .forms import NameForm,EditProfileForm, EditProfileAdminForm, TendInfo
@@ -22,8 +22,10 @@ def index():
         page, per_page=current_app.config['FLASKY_POSTS_PER_PAGE'],
         error_out=False)
     tendinfos = pagination.items
+    #add refresh time update 2017-04-14
+    refshtime = Tendinforefshtime.query.order_by(Tendinforefshtime.refshtime.desc()).first()
     return render_template('index.html', form=form, tendinfos=tendinfos,
-                            pagination=pagination)
+                            pagination=pagination, refshtime=refshtime)
 
 @main.route('/select/<key>', methods=['GET', 'POST'])
 def select(key):
@@ -41,8 +43,10 @@ def select(key):
         error_out=False)
     tendinfos = pagination.items
     counts = Tendinfo.query.filter(Tendinfo.td_name.like(keywords)).count()
+    #add refresh time in select view ---2017-04-14
+    refshtime = Tendinforefshtime.query.order_by(Tendinforefshtime.refshtime.desc()).first()
     return render_template('selectresult.html', form=form, tendinfos=tendinfos,
-                           pagination=pagination, counts=counts,key=key)
+                           pagination=pagination, counts=counts,key=key,refshtime=refshtime)
     
 
 @main.route('/user/<username>')

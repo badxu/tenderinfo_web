@@ -6,7 +6,12 @@
 
 {% block page_content %}
 	<div class="page-header">
-	    <h1>欢迎, {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}您还没登录或注册！{% endif %}!</h1>
+	    <h1>欢迎, {% if current_user.is_authenticated %}
+	    {{ current_user.username }}!<br/>
+	    最近一次抓取数据时间为：{{refshtime}}
+	    {% else %}
+	    您还没登录或注册！
+	    {% endif %}</h1>
 	</div>
 	{% if current_user.is_authenticated %}
 		<form method="POST">

@@ -58,6 +58,15 @@ class Tendinfo(db.Model):
     def __repr__(self):
         return '<Tendinfo %r>' % self.td_name
 
+##refresh time update 2017-04-14
+class Tendinforefshtime(db.Model):
+    __tablename__ = 'tend_refshtime'
+    id = db.Column(db.Integer, primary_key=True)
+    refshtime = db.Column(db.DateTime())
+    ## view format 
+    def __repr__(self):
+        return '%s' % self.refshtime
+
 
 class User(UserMixin,db.Model):
     __tablename__ = 'users'
